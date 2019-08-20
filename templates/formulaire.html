@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>SonatelAcademy</title>
+  <link rel="shortcut icon" href="{{url_for('static',filename='sonatel.gif')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/formulaireelimi.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'vendor/bootstrap/css/bootstrap.min.css')}}">
+  <link href="{{ url_for('static', filename = 'css/shop-homepage.css')}}" rel="stylesheet">
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">CODING FOR BETTER LIFE</a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+  <div>
+    <h1>Formulaire d'inscription</h1>
+    {%with messages= get_flashed_messages() %}
+    {%if messages%}
+    {%for message in messages%}
+
+    <div class="alert alert-success alert dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="close">
+        <span aria-hidden="true">x</span>
+      </button>
+      {{message}}
+    </div>
+    {%endfor%}
+    {%endif%}
+    {%endwith%}
+    <form id="signInForm" class="form-horizontal" data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" action="{{url_for('insert')}}" method="POST">
+
+
+      <fieldset>
+
+        <label class="bton" for="chatnoir"> <input type="radio" name="etat" value="nouveau" id="nouveau"
+            checked="checked" required="1" />Nouveau</label>
+        <label class="bton" for="chatnoir"><input type="radio" name="etat" value="Ancien" id="Ancien" checked="checked"
+            required="1" /> Ancien</label>
+        <br>
+        <fieldset>
+          <legend>Etudiant</legend>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">matricule:</label>
+            <div class="col-sm-5">
+              <input type="hidden" name="etudiant_id" value="{{a}}" />
+              <input type="text" name="matricule" class="form-control" id="matricule" required=1 />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-5 control-label">prenom:<span class="required">*</span></label>
+            <div class="col-sm-5">
+              <input type="text" name="prenom" class="form-control" required=1 placeholder="Ex : ASTOU" pattern=".*\S.*"
+                id="prenom" />
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">nom:</label>
+            <div class="col-sm-5">
+              <input type="text" name="nom" class="form-control" required=1 placeholder="Ex : sarr" pattern=".*\S.*"
+                id="nom" />
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">email:</label>
+            <div class="col-sm-5">
+              <input type="email" name="email" id="email" class="form-control" required=1
+                placeholder="Ex : exemple@exemple.com" pattern=".*\S.*" />
+
+
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Date de Naissance:</label>
+            <div class="col-sm-5">
+              <input type="date" name="date" id="dateNaissance" class="form-control" min="1990-12-30" max="2000-04-20"
+                required placeholder="Ex : 01/01/1900" />
+
+            </div>
+          </div>
+
+
+        </fieldset>
+        <br>
+
+        <fieldset>
+          <legend>Inscription</legend>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label"> Filière:</label>
+            <div class="col-sm-5">
+              <select name="Filière" class="form-control" id="filiere">
+                <option value="">Choisir Filière</option>
+                {% for data in posts_fili %}
+                <option value="{{data.id}}">{{data.libelle}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">classe:</label>
+            <div class="col-sm-5">
+              <select name="classe" id="classe" class="form-control">
+                <option value="">Choisir Classe</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Montant inscription:</label>
+            <div class="col-sm-5">
+
+              <input type="text" name="Montant_inscription" id="montant_ins" readonly="true" />
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Mensualité:</label>
+            <div class="col-sm-5">
+              <input type="text" name="Mensualité" id="mensualite" readonly="true" size="30" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Total inscription:</label>
+            <div class="col-sm-5">
+              <input type="text" name="total_inscription" id="total_ins" readonly="true" size="30" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Date d'inscription:</label>
+            <div class="col-sm-5">
+              <input type="text" name="date_ins" class="form-control" value="{{date_actu}}" required readonly="true" />
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Annén académy:</label>
+            <div class="col-sm-5">
+              <input type="text" name="Annén" class="form-control" required value="{{annee_academy}}" readonly="true" />
+
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">
+              <button class="btn btn-success pull-right" type="submit" id="submit">
+                enregistrer
+              </button>
+
+            </div>
+          </div>
+
+        </fieldset>
+    </form>
+
+  </div>
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <marquee behavior="alternate" direction="left">
+        <h3><strong style="color: aliceblue">bienvenue à la sonatel academy coding for better life</strong></h3>
+      </marquee>
+      <h1>
+        <span style="color: aliceblue">Retrouvez-nous sur nos pages</span>
+        <a href="https://twitter.com/GroupeSonatel" target="_blank" class="twitter"> twitter</a>
+        <a href="https://www.facebook.com/SonatelAcademy" class="facebook" target="_blank">facebook</a>
+        <span class="pull-right" style="color: aliceblue"> copyright &copy;2019 Tous droits réservés </span>
+      </h1>
+    </div>
+    <!-- /.container -->
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- pour gerer les deux boutons -->
+  <script type="text/javascript">
+    $("input[type=radio]").click(() => {
+      const val = $('input[name=etat]:checked').val();
+      if (val === "nouveau") {
+        document.getElementById("matricule").disabled = false;
+        $('#matricule').attr('readonly', true);
+        document.getElementById("matricule").value = "{{matricule}}";
+      }
+      else {
+        // $('#matricule').attr('readonly', false); 
+        document.getElementById("matricule").disabled = false;
+        $('#matricule').attr('readonly', false);
+
+        document.getElementById("matricule").value = "";
+      }
+
+    });
+  </script>
+  <!-- Gérer la relation entre filiére et classe -->
+  <script>
+    $(document).ready(function () {
+      $("#filiere").change(function () {
+        var filiere = document.getElementById("filiere").value
+        var classe = document.getElementById("classe")
+        console.log(filiere)
+        fetch('/listfiliere/' + filiere)
+          .then(function (response) {
+            response.json()
+              .then(function (data) {
+                console.log(data)
+                html = ''
+                for (let index = 0; index < data['classe'].length; index++) {
+                  html += '<option value="' + data['classe'][index]['id'] + '">' + data['classe'][index]['libelle'] + '</option>'
+                }
+
+                classe.innerHTML = html
+              })
+
+          })
+      });
+
+    });
+  </script>
+
+  <!-- Gérer la relation entre classe et les autres champs montant mensualité -->
+  <script>
+    //  initialisation de la classe
+    $(document).ready(function () {
+      $("#classe").change(function () {
+        var classe = document.getElementById("classe").value
+        var montant_ins = document.getElementById("montant_ins")
+        var mensualite = document.getElementById("mensualite")
+        var total_ins = document.getElementById("total_ins")
+        console.log(classe)
+        fetch('/listclasse/' + classe)
+          .then(function (response) {
+            response.json()
+              .then(function (data) {
+                document.getElementById("montant_ins").value = parseInt(data['classe'][0]['montant_ins']);
+                document.getElementById("mensualite").value = parseInt(data['classe'][0]['mensualite']);
+                document.getElementById("total_ins").value = parseInt(data['classe'][0]['montant_ins']) + parseInt(data['classe'][0]['mensualite'])
+              })
+
+          })
+      });
+
+    });
+
+
+  </script>
+  <!-- Gérer la réinscription-->
+
+  <script type="text/javascript">
+    $("#matricule").change(function () {
+      var etudiant = document.getElementById("matricule").value
+      //alert(classe)
+      var nom = document.getElementById("nom")
+      $('#nom').attr('readonly', true);
+      var nom = document.getElementById("prenom")
+      $('#prenom').attr('readonly', true);
+      var email = document.getElementById("email")
+      $('#email').attr('readonly', true);
+      var dateNaissance = document.getElementById("dateNaissance")
+      $('#dateNaissance').attr('readonly', true);
+      var filiere = document.getElementById("filiere")
+      $('#filiere').attr('readonly', true);
+       var classe = document.getElementById("classe")
+      // $('#classe').attr('readonly', false);
+      // var montant_ins = document.getElementById("montant_ins")
+      $('#montant_ins').attr('readonly', true);
+      var mensualite = document.getElementById("mensualite")
+      $('#mensualite').attr('readonly', true);
+      var total_ins = document.getElementById("total_ins")
+      $('#total_ins').attr('readonly', true);
+
+      //console.log(classe)
+      fetch('/rechermat/' + etudiant)
+        .then(function (response) {
+          response.json()
+            //console.log(response.json())
+            .then(function (data) {
+              console.log(data)
+              document.getElementById("prenom").value = data['etudiant'][0]['prenom'];
+              document.getElementById("nom").value = data['etudiant'][0]['nom'];
+              document.getElementById("email").value = data['etudiant'][0]['email'];
+              document.getElementById("dateNaissance").value = convert(data['etudiant'][0]['date_naissance']);
+              html = ''
+              // for (let index =0; index < data['etudiant'].length;) {
+              html += '<option value="' + data['etudiant'][2]['id_fil'] + '">' + data['etudiant'][2]['filiere'] + '</option>'
+
+              filiere.innerHTML = html;
+
+              html1 = ''
+                for (let index = 3; index < data['etudiant'].length; index++) {
+                  html1 += '<option value="' + data['etudiant'][index]['id_cl'] + '">' + data['etudiant'][index]['libelle'] + '</option>'
+                }
+
+                classe.innerHTML = html1
+
+              // document.getElementById("montant_ins").value=parseInt(data['etudiant'][1]['montant_ins']);
+              // document.getElementById("mensualite").value=parseInt(data['etudiant'][1]['mensualite']);
+              // document.getElementById("total_ins").value=parseInt(data['etudiant'][1]['montant_ins'])+parseInt(data['etudiant'][1]['mensualite']);
+
+            })
+            .catch(function (e) {
+              console.log(e)
+              alert("Le matricule n'existe pas dans la base ")
+              document.getElementById("nom").value = "";
+              document.getElementById("prenom").value = "";
+              document.getElementById("email").value = "";
+              document.getElementById("dateNaissance").value = "";
+              document.getElementById("filiere").value = ""
+              document.getElementById("classe").value = "";
+              document.getElementById("montant_ins").value = "";
+              document.getElementById("mensualite").value = "";
+              document.getElementById("total_ins").value = "";  
+            })
+        })
+
+    });
+    /* Fonction pour convertir la date  */
+    function convert(str) {
+      var date = new Date(str),
+        mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+        day = ("0" + date.getDate()).slice(-2);
+      return [date.getFullYear(), mnth, day].join("-");
+    }
+  </script>
+
+ 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+</body>
+
+</html>
